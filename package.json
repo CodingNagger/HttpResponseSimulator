@@ -4,6 +4,7 @@
   "description": "Just a tool to validate your http client implementation",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "mocha --recursive tests"
   },
   "repository": {
