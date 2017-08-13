@@ -1,5 +1,6 @@
 var url = require('url')
-var processQuery = require('./processors/text-processor')
+var processQuery = require('./processor')
+var handleResponse = require('./response-handlers/plain-text')
 
 var express = require('express')
 var app = express()
@@ -11,15 +12,15 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.get('/', function (req, res) {
   var query = url.parse(req.url, true).query
 
-  res.send(processQuery(query))
+  handleResponse(processQuery(query), res)
 })
 
 app.post('/', function (req, res) {
-  res.send(processQuery(req.body))
+  handleResponse(processQuery(req.body), res)
 })
 
 app.put('/', function (req, res) {
-  res.send(processQuery(req.body))
+  handleResponse(processQuery(req.body), res)
 })
 
 var port = process.env.PORT || 8080;

@@ -1,17 +1,15 @@
 var sleep = require('system-sleep')
 
 function processQuery(query) {
-    var response = ''
-
+    var processed = {};
     var wait = parseInt(query.wait)
 
     if (!isNaN(wait)) {
         sleep(wait)
-        response += 'Waited '+wait+'ms to respond.\
-        '
+        processed['wait'] = wait
     }
 
-    return response
+    return processed
 }
 
 module.exports = processQuery
