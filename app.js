@@ -1,6 +1,7 @@
 var url = require('url')
 var processQuery = require('./processor')
 var handleResponse = require('./response-handlers/plain-text')
+var handlePastebinResponse = require('./response-handlers/pastebin')
 
 var express = require('express')
 var app = express()
@@ -11,16 +12,39 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', function (req, res) {
   var query = url.parse(req.url, true).query
+  var processed = processQuery(query)
 
-  handleResponse(processQuery(query), res)
+  handlePastebinResponse(
+    processed, 
+    res,
+    () => {
+      handleResponse(processed, res)
+    }
+  )
 })
 
 app.post('/', function (req, res) {
-  handleResponse(processQuery(req.body), res)
+  var processed = processQuery(req.body)
+
+  handlePastebinResponse(
+    processed, 
+    res,
+    () => {
+      handleResponse(processed, res)
+    }
+  )
 })
 
 app.put('/', function (req, res) {
-  handleResponse(processQuery(req.body), res)
+  var processed = processQuery(req.body)
+
+  handlePastebinResponse(
+    processed, 
+    res,
+    () => {
+      handleResponse(processed, res)
+    }
+  )
 })
 
 var port = process.env.PORT || 8080;

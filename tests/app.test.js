@@ -23,6 +23,13 @@ describe('app.js - GET /', function(){
       .expect(200, 'Waited '+wait+'ms to respond.\
         ', done)
   })
+
+  it('Wait GET returns pastebin code when id present', function(done){
+    request(app)
+      .get('/?pastebinId=5Gz2c2jv')
+      .expect(contentTypeHeader, contentTypePlainText)
+      .expect(200, 'http-response-generator', done)
+  })
 })
 
 describe('app.js - POST /', function(){
