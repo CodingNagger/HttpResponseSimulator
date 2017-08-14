@@ -17,6 +17,11 @@ function processQuery(query) {
         processed['pastebinId'] = query.pastebinId
     }
 
+    // echo
+    if (query.echo !== undefined) {
+        processed['echo'] = query.echo
+    }
+
     return processed
 }
 

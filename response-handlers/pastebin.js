@@ -3,7 +3,7 @@ var Promise = require('promise')
 function generateResponse(processed, res, request) {
     return new Promise((fulfill, reject) => {
         if (processed.pastebinId !== undefined) {
-            var r = request.get('https://pastebin.com/raw/'+processed.pastebinId, function (err, innerRes, body) {
+            request.get('https://pastebin.com/raw/'+processed.pastebinId, function (err, innerRes, body) {
                 if (err) {
                     reject('request failed')
                 }
@@ -15,7 +15,7 @@ function generateResponse(processed, res, request) {
                         res.type(processed.accept)
                     }
                     res.send(body)
-                    fulfill()
+                    fulfill(processed)
                 }
             })
         }

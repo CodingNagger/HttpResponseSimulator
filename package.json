@@ -2,9 +2,9 @@
   "name": "http-response-simulator",
   "version": "1.0.0",
   "description": "Just a tool to validate your http client implementation",
-  "main": "app.js",
+  "main": "main.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node main.js",
     "test": "mocha --recursive tests"
   },
   "repository": {

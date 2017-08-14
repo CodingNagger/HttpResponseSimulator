@@ -1,7 +1,9 @@
 var url = require('url')
 var processQuery = require('./processor')
+
 var handleResponse = require('./response-handlers/plain-text')
 var handlePastebinResponse = require('./response-handlers/pastebin')
+var handleEchoResponse = require('./response-handlers/echo')
 
 var request = require('request')
 var express = require('express')
@@ -13,40 +15,39 @@ app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', function (req, res) {
   var query = url.parse(req.url, true).query
-  var processed = processQuery(query)
 
-  handlePastebinResponse(
-    processed, 
-    res,
-    request
-  ).catch((reason) => {
-    handleResponse(processed, res)
-  })
+  handle(query, res, handleResponse)
 })
 
 app.post('/', function (req, res) {
-  var processed = processQuery(req.body)
-
-  handlePastebinResponse(
-    processed, 
-    res,
-    request
-  ).catch((reason) => {
-    handleResponse(processed, res)
-  })
+  handle(req.body, res, handleResponse)
 })
 
 app.put('/', function (req, res) {
-  var processed = processQuery(req.body)
-
-  handlePastebinResponse(
-    processed, 
-    res,
-    request
-  ).catch((reason) => {
-    handleResponse(processed, res)
-  })
+  handle(req.body, res, handleResponse)
 })
+
+function handle(query, res, defaultHandler) {
+  return new Promise((resolve, reject) => {
+    var processed = processQuery(query)
+
+    handleEchoResponse(processed, res)
+    .then(resolve)
+    .catch(
+      () => handlePastebinResponse(
+      processed, 
+      res,
+      request
+      )
+      .then(resolve)
+      .catch((reason) => {
+        defaultHandler(processed, res)
+        .then(resolve)
+        .catch(reject)
+      })
+    )
+  })
+}
 
 var port = process.env.PORT || 8080;
 
@@ -58,4 +59,7 @@ var server = app.listen(port, function () {
   console.log("Http Client Simulator listening at http://%s:%s", host, port)
 })
 
-module.exports = app
+module.exports = {
+  app: app,
+  handle: handle
+}

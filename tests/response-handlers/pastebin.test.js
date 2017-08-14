@@ -1,7 +1,3 @@
-/*
-Arrange
-*/
-
 // Tested component
 var pastebinHandler = require('../../response-handlers/pastebin')
 
@@ -25,10 +21,7 @@ var failedRequest = {
     }
 }
 
-/*
-Act and assert
-*/
-
+// Tests
 describe('pastebin.test.js - generateResponse', function(){
   it('Succeeds when pastebinId is defined and requests returns body', function(done){
     var res = {
@@ -36,8 +29,10 @@ describe('pastebin.test.js - generateResponse', function(){
         type: sinon.spy()
     }
 
-    pastebinHandler({ pastebinId: 'someId' }, res, successfulRequest)
-        .then(() => {
+    var query = { pastebinId: 'someId' }
+    pastebinHandler(query, res, successfulRequest)
+        .then((processed) => {
+            assert(query.pastebinId === processed.pastebinId, 'pastebinId not passed')
             assert(res.send.calledWith(pastebinExpectedResponse), 'response not sent')
             assert(res.type.calledOnce, 'content-type not set')
             done()
