@@ -3,6 +3,7 @@ var processQuery = require('./processor')
 var handleResponse = require('./response-handlers/plain-text')
 var handlePastebinResponse = require('./response-handlers/pastebin')
 
+var request = require('request')
 var express = require('express')
 var app = express()
 
@@ -19,7 +20,8 @@ app.get('/', function (req, res) {
     res,
     () => {
       handleResponse(processed, res)
-    }
+    },
+    request
   )
 })
 
@@ -31,7 +33,8 @@ app.post('/', function (req, res) {
     res,
     () => {
       handleResponse(processed, res)
-    }
+    },
+    request
   )
 })
 
@@ -43,7 +46,8 @@ app.put('/', function (req, res) {
     res,
     () => {
       handleResponse(processed, res)
-    }
+    },
+    request
   )
 })
 
