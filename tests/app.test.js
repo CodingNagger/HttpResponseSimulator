@@ -1,10 +1,31 @@
-var request = require('supertest')
+/*
+Arrange
+*/
 
+// App
 var app = require("../app")
+
+// Dependencies
+var request = require('supertest')
+var nock = require('nock');
+
+// Variables
+var pastebinKey = 'testKey'
+var pastebinDomain = 'https://pastebin.com'
+var pastebinExpectedPath = '/raw/' + pastebinKey
+var pastebinExpectedResponse = 'pastebinExpectedResponse'
 
 var contentTypeHeader = 'Content-Type'
 var contentTypePlainText = 'text/plain; charset=utf-8'
 
+// Nock setup
+nock(pastebinDomain)
+  .get(pastebinExpectedPath)
+  .reply(200, pastebinExpectedResponse)
+
+/*
+Act and assert
+*/
 
 describe('app.js - GET /', function(){
   it('Default GET returns 200', function(done){
@@ -26,9 +47,9 @@ describe('app.js - GET /', function(){
 
   it('Wait GET returns pastebin code when id present', function(done){
     request(app)
-      .get('/?pastebinId=5Gz2c2jv')
+      .get('/?pastebinId='+pastebinKey)
       .expect(contentTypeHeader, contentTypePlainText)
-      .expect(200, 'http-response-generator', done)
+      .expect(200, pastebinExpectedResponse, done)
   })
 })
 
