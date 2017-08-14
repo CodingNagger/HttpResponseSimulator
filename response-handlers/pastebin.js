@@ -1,11 +1,11 @@
 var Promise = require('promise')
 
 function generateResponse(processed, res, request) {
-    return new Promise((resolve, reject) => {
+    return new Promise((fulfill, reject) => {
         if (processed.pastebinId !== undefined) {
             var r = request.get('https://pastebin.com/raw/'+processed.pastebinId, function (err, innerRes, body) {
                 if (err) {
-                    reject()
+                    reject('request failed')
                 }
                 else {
                     if (processed.accept == undefined) {
@@ -15,12 +15,12 @@ function generateResponse(processed, res, request) {
                         res.type(processed.accept)
                     }
                     res.send(body)
-                    resolve()
+                    fulfill()
                 }
             })
         }
         else {
-            reject()
+            reject('no pastebinId')
         }
     })
 }

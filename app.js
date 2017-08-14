@@ -18,11 +18,10 @@ app.get('/', function (req, res) {
   handlePastebinResponse(
     processed, 
     res,
-    () => {
-      handleResponse(processed, res)
-    },
     request
-  )
+  ).catch((reason) => {
+    handleResponse(processed, res)
+  })
 })
 
 app.post('/', function (req, res) {
@@ -31,11 +30,10 @@ app.post('/', function (req, res) {
   handlePastebinResponse(
     processed, 
     res,
-    () => {
-      handleResponse(processed, res)
-    },
     request
-  )
+  ).catch((reason) => {
+    handleResponse(processed, res)
+  })
 })
 
 app.put('/', function (req, res) {
@@ -44,11 +42,10 @@ app.put('/', function (req, res) {
   handlePastebinResponse(
     processed, 
     res,
-    () => {
-      handleResponse(processed, res)
-    },
     request
-  )
+  ).catch((reason) => {
+    handleResponse(processed, res)
+  })
 })
 
 var port = process.env.PORT || 8080;

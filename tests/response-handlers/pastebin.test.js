@@ -6,13 +6,7 @@ Arrange
 var pastebinHandler = require('../../response-handlers/pastebin')
 
 // Variables
-var pastebinKey = 'testKey'
-var pastebinDomain = 'https://pastebin.com'
-var pastebinExpectedPath = '/raw/' + pastebinKey
 var pastebinExpectedResponse = 'pastebinExpectedResponse'
-
-var contentTypeHeader = 'Content-Type'
-var contentTypePlainText = 'text/plain; charset=utf-8'
 
 // Dependencies
 var assert = require('assert')
@@ -37,42 +31,28 @@ Act and assert
 
 describe('pastebin.test.js - generateResponse', function(){
   it('Succeeds when pastebinId is defined and requests returns body', function(done){
-    var sendStub = sinon.spy()
     var res = {
-        send: (body) => { 
-            sendStub(body)
-            done()
-        },
+        send: sinon.spy(),
         type: sinon.spy()
     }
 
-    pastebinHandler({ pastebinId: 'someId' }, res, undefined, successfulRequest)
-
-    assert(sendStub.calledWith(pastebinExpectedResponse) === true, 'response not sent')
-    assert(res.type.calledOnce === true, 'content-type not set')
+    pastebinHandler({ pastebinId: 'someId' }, res, successfulRequest)
+        .then(() => {
+            assert(res.send.calledWith(pastebinExpectedResponse), 'response not sent')
+            assert(res.type.calledOnce, 'content-type not set')
+            done()
+        })
   })
 
   it('Does not make pastebin request but calls failure when pastebinId is not defined', function(done){
-    var failStub = sinon.spy()
-
-    pastebinHandler({}, undefined, () => {
-            failStub()
-            done()
-        }, undefined)
-
-    assert(failStub.calledOnce === true, 'not failing as expected')
+    pastebinHandler({}, undefined, undefined)
+        .then(() => { assert(false, 'should not succeed') })
+        .catch(() => { done() })
   })
 
   it('Fails when pastebin query returns an error', function(done){
-    var failStub = sinon.spy()
-
-    pastebinHandler({ pastebinId: 'someId' }, undefined, 
-        () => {
-            failStub()
-            done()
-        },
-        failedRequest)
-
-    assert(failStub.calledOnce === false, 'not failing as expected')
+    pastebinHandler({ pastebinId: 'someId' }, undefined, failedRequest)
+        .then(() => { assert(false, 'should not succeed') })
+        .catch(() => { done() })
   })
 })
