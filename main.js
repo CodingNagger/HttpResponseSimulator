@@ -41,7 +41,7 @@ function handle(query, res, defaultHandler) {
       )
       .then(resolve)
       .catch((reason) => {
-        defaultHandler(processed, res)
+        defaultHandler(processed, res, request)
         .then(resolve)
         .catch(reject)
       })
