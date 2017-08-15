@@ -41,7 +41,7 @@ describe('default.test.js - generateResponse from url', function(){
         .catch(done)
   })
 
-  it('Does not make request but calls failure when responseUrl is not defined', function(done){
+  it('Does not make request but calls failure when pastebinId is not defined', function(done){
     defaultHandler({}, undefined, undefined)
         .then(() => { assert(false, 'should not succeed') })
         .catch(() => { done() })

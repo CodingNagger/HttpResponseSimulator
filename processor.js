@@ -24,7 +24,7 @@ function processQuery(query) {
 
     // responseUrl
     if (query.responseUrl !== undefined) {
-        processed['responseUrl'] = query.responseUrl
+        processed['responseUrl'] = decodeURI(query.responseUrl)
     }
 
     return processed
