@@ -10,7 +10,7 @@ var express = require('express')
 var app = express()
 
 var bodyParser = require('body-parser')
-app.use( bodyParser.json())
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
 app.get('/', function (req, res) {
@@ -31,14 +31,14 @@ function handle(query, res, defaultHandler) {
   return new Promise((resolve, reject) => {
     var processed = processQuery(query)
 
+    if (processed.statusCode) {
+      res.status(processed.statusCode)
+    }
+
     handleEchoResponse(processed, res)
     .then(resolve)
     .catch(
-      () => handlePastebinResponse(
-      processed, 
-      res,
-      request
-      )
+      () => handlePastebinResponse(processed, res, request)
       .then(resolve)
       .catch((reason) => {
         defaultHandler(processed, res, request)

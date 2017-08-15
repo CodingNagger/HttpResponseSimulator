@@ -27,6 +27,13 @@ function processQuery(query) {
         processed['responseUrl'] = decodeURI(query.responseUrl)
     }
 
+    // status code
+    var statusCode = parseInt(query.statusCode)
+
+    if (!isNaN(statusCode)) {
+        processed['statusCode'] = query.statusCode
+    }
+
     return processed
 }
 

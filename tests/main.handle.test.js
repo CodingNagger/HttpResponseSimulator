@@ -35,23 +35,25 @@ describe('app.js - default - handle(query, res, defaultPromise)', function(){
             })
     })
 
-    it('write data to response', function(done){
-        var query = {}
+    it('Write data and status code to response', function(done){
+        var query = { statusCode: 999 }
         var res = {
             send: sinon.spy(),
+            status: sinon.spy(),
             type: sinon.spy()
         }
         
-        var coucou = 'coucou'
-
+        var testResponse = 'testResponse'
+        
         main.handle(query, res, (processed, ress) => {
-            return new Promise((a, b) => {
-                ress.send(coucou)
-                a()
+            return new Promise((resolve, reject) => {
+                ress.send(testResponse)
+                resolve()
             })
         })
         .then((stuff) => {
-          assert(res.send.calledWith(coucou))  
+          assert(res.send.calledWith(testResponse)) 
+          assert(res.status.calledWith(query.statusCode))  
           done()
         })
     })
