@@ -1,7 +1,7 @@
 var url = require('url')
 var processQuery = require('./processor')
 
-var handleResponse = require('./response-handlers/plain-text')
+var handleResponse = require('./response-handlers/default')
 var handlePastebinResponse = require('./response-handlers/pastebin')
 var handleEchoResponse = require('./response-handlers/echo')
 

@@ -22,6 +22,11 @@ function processQuery(query) {
         processed['echo'] = query.echo
     }
 
+    // responseUrl
+    if (query.responseUrl !== undefined) {
+        processed['responseUrl'] = query.responseUrl
+    }
+
     return processed
 }
 
