@@ -36,4 +36,7 @@ jobs:
       # run tests!
       - run: yarn test
 
+      # run coverage!
+      - run: yarn run cover
+
 

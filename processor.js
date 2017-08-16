@@ -13,17 +13,17 @@ function processQuery(query) {
     }
 
     // pastebin
-    if (query.pastebinId !== undefined) {
+    if (query.pastebinId) {
         processed['pastebinId'] = query.pastebinId
     }
 
     // echo
-    if (query.echo !== undefined) {
+    if (query.echo) {
         processed['echo'] = query.echo
     }
 
     // responseUrl
-    if (query.responseUrl !== undefined) {
+    if (query.responseUrl) {
         processed['responseUrl'] = decodeURI(query.responseUrl)
     }
 
@@ -32,6 +32,11 @@ function processQuery(query) {
 
     if (!isNaN(statusCode)) {
         processed['statusCode'] = query.statusCode
+    }
+
+    // accept
+    if (query.accept) {
+        processed['accept'] = query.accept
     }
 
     return processed

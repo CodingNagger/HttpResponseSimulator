@@ -8,12 +8,6 @@ function generateResponse(processed, res, request) {
                     reject('request to '+ processed.responseUrl +' failed')
                 }
                 else {
-                    if (processed.accept == undefined) {
-                        res.type('text/plain')
-                    }
-                    else {
-                        res.type(processed.accept)
-                    }
                     res.send(body)
                     fulfill(processed)
                 }

@@ -25,8 +25,7 @@ var failedRequest = {
 describe('default.test.js - generateResponse from url', function(){
   it('Succeeds when responseUrl is defined and requests returns body', function(done){
     var res = {
-        send: sinon.spy(),
-        type: sinon.spy()
+        send: sinon.spy()
     }
 
     var query = { responseUrl: 'https://blog.iamnguele.com' }
@@ -35,7 +34,6 @@ describe('default.test.js - generateResponse from url', function(){
         .then((processed) => {
             assert(query.responseUrl === processed.responseUrl, 'responseUrl not passed')
             assert(res.send.calledWith(defaultExpectedResponse), 'response not sent')
-            assert(res.type.calledOnce, 'content-type not set')
             done()
         })
         .catch(done)

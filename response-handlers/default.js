@@ -11,7 +11,7 @@ function generateResponse(processed, res, request) {
         })
         .catch(() => {
             return new Promise((resolve, reject) => {
-                textGenerateResponse(processed, res, request)
+                textGenerateResponse(processed, res)
                     .then((processed) => {
                         resolve(processed)
                     })

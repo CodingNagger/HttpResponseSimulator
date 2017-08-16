@@ -35,6 +35,13 @@ function handle(query, res, defaultHandler) {
       res.status(processed.statusCode)
     }
 
+    if (processed.accept !== undefined) {
+      res.type(processed.accept)
+    }
+    else {
+      res.type('text/plain')
+    }
+
     handleEchoResponse(processed, res)
     .then(resolve)
     .catch(

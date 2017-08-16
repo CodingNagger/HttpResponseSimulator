@@ -25,8 +25,7 @@ var failedRequest = {
 describe('pastebin.test.js - generateResponse', function(){
   it('Succeeds when pastebinId is defined and requests returns body', function(done){
     var res = {
-        send: sinon.spy(),
-        type: sinon.spy()
+        send: sinon.spy()
     }
 
     var query = { pastebinId: 'someId' }
@@ -34,7 +33,6 @@ describe('pastebin.test.js - generateResponse', function(){
         .then((processed) => {
             assert(query.pastebinId === processed.pastebinId, 'pastebinId not passed')
             assert(res.send.calledWith(pastebinExpectedResponse), 'response not sent')
-            assert(res.type.calledOnce, 'content-type not set')
             done()
         })
   })

@@ -11,7 +11,12 @@ describe('app.js - default - handle(query, res, defaultPromise)', function(){
         var handler = (processed, res) => { done() }
         var query = {}
 
-        main.handle(query, undefined, handler)
+        var res = {
+            send: sinon.spy(),
+            type: sinon.spy()
+        }
+
+        main.handle(query, res, handler)
     })
 
     it('passes processed query data', function(done){
@@ -35,8 +40,8 @@ describe('app.js - default - handle(query, res, defaultPromise)', function(){
             })
     })
 
-    it('Write data and status code to response', function(done){
-        var query = { statusCode: 999 }
+    it('Write data, status code and content-type to response', function(done){
+        var query = { statusCode: 999, accept: 'jd/iamnguele' }
         var res = {
             send: sinon.spy(),
             status: sinon.spy(),
@@ -53,6 +58,7 @@ describe('app.js - default - handle(query, res, defaultPromise)', function(){
         })
         .then((stuff) => {
           assert(res.send.calledWith(testResponse)) 
+          assert(res.type.calledWith(query.accept)) 
           assert(res.status.calledWith(query.statusCode))  
           done()
         })

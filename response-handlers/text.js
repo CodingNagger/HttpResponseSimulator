@@ -1,4 +1,4 @@
-function generateResponse(processed, res, request) {
+function generateResponse(processed, res) {
     return new Promise((resolve, reject) => {
             var message = ''
 
@@ -7,7 +7,6 @@ function generateResponse(processed, res, request) {
                 '
             }
 
-            res.type('text/plain')
             res.send(message)
 
             resolve(processed)
