@@ -10,13 +10,21 @@ describe('main.js - GET /', function(){
   it('Default GET returns 200', function(done){
     request(main.app)
       .get('/')
+      .expect(200, done)
+  })
+})
+
+describe('main.js - GET /api', function(){
+  it('Default GET returns 200', function(done){
+    request(main.app)
+      .get('/api')
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, done)
   })
 
   it('Default responseUrl works', function(done){
     request(main.app)
-      .get('/?responseUrl='+encodeURI('http://skyneat.io'))
+      .get('/api?responseUrl='+encodeURI('http://skyneat.io'))
       .expect(200, skyneatResponse, done)
   })
 
@@ -24,16 +32,16 @@ describe('main.js - GET /', function(){
     var echo = 'getEcho'
 
     request(main.app)
-      .get('/?echo='+echo)
+      .get('/api?echo='+echo)
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, echo, done)
   })
 })
 
-describe('app.js - POST /', function(){
+describe('app.js - POST /api', function(){
   it('Default POST returns 200', function(done){
     request(main.app)
-      .post('/')
+      .post('/api')
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, done)
   })
@@ -42,7 +50,7 @@ describe('app.js - POST /', function(){
     var echo = 'postEchoForm'
 
     request(main.app)
-      .post('/')
+      .post('/api')
       .send('echo='+echo)
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, echo, done)
@@ -52,7 +60,7 @@ describe('app.js - POST /', function(){
     var echo = 'postEchoJson'
 
     request(main.app)
-      .post('/')
+      .post('/api')
       .send({echo: echo})
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, echo, done)
@@ -62,7 +70,7 @@ describe('app.js - POST /', function(){
 describe('app.js - PUT /', function(){
   it('Default PUT returns 200', function(done){
     request(main.app)
-      .put('/')
+      .put('/api')
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, done)
   })
@@ -71,7 +79,7 @@ describe('app.js - PUT /', function(){
     var echo = 'putEchoForm'
 
     request(main.app)
-      .put('/')
+      .put('/api')
       .send('echo='+echo)
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, echo, done)
@@ -81,7 +89,7 @@ describe('app.js - PUT /', function(){
     var echo = 'putEchoForm'
 
     request(main.app)
-      .put('/')
+      .put('/api')
       .send({echo: echo})
       .expect(contentTypeHeader, contentTypePlainText)
       .expect(200, echo, done)

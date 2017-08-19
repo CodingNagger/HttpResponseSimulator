@@ -4,3 +4,5 @@
 [![Coverage Status](https://coveralls.io/repos/github/IamNguele/HttpResponseSimulator/badge.svg?branch=master)](https://coveralls.io/github/IamNguele/HttpResponseSimulator?branch=master)
 
 Just a tool to validate your http client implementation.
+
+More details there: [https://http-response-simulator.herokuapp.com/](https://http-response-simulator.herokuapp.com/)

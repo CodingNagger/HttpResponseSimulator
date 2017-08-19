@@ -7,23 +7,26 @@ var handleEchoResponse = require('./response-handlers/echo')
 
 var request = require('request')
 var express = require('express')
+const path = require('path');
 var app = express()
 
 var bodyParser = require('body-parser')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
 
-app.get('/', function (req, res) {
+app.use('/', express.static(path.join(__dirname, 'frontend')))
+
+app.get('/api', function (req, res) {
   var query = url.parse(req.url, true).query
 
   handle(query, res, handleResponse)
 })
 
-app.post('/', function (req, res) {
+app.post('/api', function (req, res) {
   handle(req.body, res, handleResponse)
 })
 
-app.put('/', function (req, res) {
+app.put('/api', function (req, res) {
   handle(req.body, res, handleResponse)
 })
 

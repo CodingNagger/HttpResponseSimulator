@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css" />
+        <title>HttpResponseSimulator: Generate responses with a specific behaviour</title>
+
+        <meta name="robots" content="noodp">
+        <meta property="og:locale" content="en_US">
+        <meta property="og:title" content="HttpResponseSimulator: Generate responses with a specific behaviour">
+        <meta property="og:url" content="https://http-response-simulator.herokuapp.com">
+        <meta property="og:site_name" content="HttpResponseSimulator">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="HttpResponseSimulator: Generate responses with a specific behaviour">
+
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-96760159-2', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <script src="/js/jquery-ui-1.12.1.custom/external/jquery/jquery.js"></script>
+        <script src="/js/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+        <script>
+        $( function() {
+            $( "#tabs" ).tabs();
+        } );
+        </script>
+    </head>
+    <body class="dark-primary-color">
+        <header class="default-primary-color text-primary-color">
+            <span class="title">HttpResponseSimulator</span>
+            <span class="tagline">Generate responses with a specific behaviour</span>
+        </header>
+        <main class="light-primary-color primary-text-color">
+            <div id="tabs">
+            <ul>
+                <li><a href="#what">What is this?</a></li>
+                <li><a href="#supported-input">Supported inputs</a></li>
+                <li><a href="#supported-parameters">Supported parameters</a></li>
+                <li><a href="#example">Example</a></li>
+            </ul>
+            <div id="what" class="middle">
+                <h2>What is this?</h2>
+                <p>
+                    I you have a better name than HttpResponseSimulator just hit me up. It's just a tool 
+                    that will allow you to define the behaviour you want a response to have. I built it 
+                    over an afternoon so that I could write a test for an http client wrapper, to ensure
+                    timeouts would be handled properly since there was no way to reach the wrapped client
+                    directly. The first version came to life after an hour once I familiarized myself again
+                    with Node.js.
+                </p>
+                <p>
+                    Eventually I added a few more advances over the past few days in order
+                    to make it a better tool. Now it serves a few more purposes than waiting a few seconds
+                    before responding. Then came the quality I needed to set before making it open-source
+                    and hopefully have people using it and helping it grow. And now it feels ready.
+                </p>
+                <p>
+                    If you want to contribute you can <a href="https://github.com/IamNguele/HttpResponseSimulator/issues" alt="Github issues">
+                    send your ideas here</a> or <a href="https://github.com/IamNguele/HttpResponseSimulator/issues" alt="Github issues">
+                    open pull requests there.</a>
+                    
+                </p>
+            </div>
+            <div id="supported-input" class="middle">
+                <h2>Supported inputs</h2>
+                <p>
+                    The API is predictibly available at /api, don't blame my lack of creativity that started as an afternoon project.
+                    Below you can see the supported verbs and formats.
+                </p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>URL parameters</th>
+                            <th>Form</th>
+                            <th>JSON</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="left">GET</th>
+                            <td class="supported">YES</td>
+                            <td class="unsupported">NO</td>
+                            <td class="unsupported">NO</td>
+                        </tr>
+                        <tr>
+                            <th class="left">POST</th>
+                            <td class="unsupported">NO</td>
+                            <td class="supported">YES</td>
+                            <td class="supported">YES</td>
+                        </tr>
+                        <tr>
+                            <th class="left">PUT</th>
+                            <td class="unsupported">NO</td>
+                            <td class="supported">YES</td>
+                            <td class="supported">YES</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="supported-parameters" class="middle">
+                <h2>Supported parameters</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody  class="left">
+                        <tr>
+                            <th>wait</th>
+                            <td>Integer</td>
+                            <td>
+                                If positive, the response will be sent after waiting the specified value in milliseconds.
+                                (i.e. if the value is 200, the app will wait 200ms before responding)
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>pastebinId</th>
+                            <td>String</td>
+                            <td>
+                                If valid, the response will be the data matching that pastebin id.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>echo</th>
+                            <td>String</td>
+                            <td>
+                                If set, the response will be the value passed.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>responseUrl</th>
+                            <td>String</td>
+                            <td>
+                                If it is a valid and freely accessible url from a GET request, the data 
+                                returned in the response will match the data you would get from that uri.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>statusCode</th>
+                            <td>Integer</td>
+                            <td>
+                                If valid, will set the response status code.
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>accept</th>
+                            <td>String</td>
+                            <td>
+                                If valid, will set the response content type.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div id="example" class="middle">
+                <h2>Examples</h2>
+                <div>
+                    <h3>Get response from a pastebin id after 300 milliseconds</h3>
+                    <div>For the parameters request:
+                        <a href="/api?wait=300&pastebinId=h5R3XNAj">
+                            wait=300&amp;pastebinId=h5R3XNAj
+                        </a>
+                        You will get the following response after waiting 300 milliseconds:
+                        <code>
+                            I guess you know how to use the HttpResponseSimulator now.
+                        </code>
+                    </div>
+                    <h3>Get a 500 error code with the default response handler response after 1 second.</h3>
+                    <div> For the parameters request:
+                        <a href="/api?wait=1000&statusCode=500">
+                            wait=1000&amp;statusCode=500
+                        </a>
+                        You will get the following response after waiting 1 second:
+                        <code>
+                            Waited 1000ms to respond.
+                        </code>
+                        However if you trigger the same request through <a href="https://www.getpostman.com/" alt="postman">Postman</a>, you can see the status code set
+                        to 500.
+                        <img src="/img/postman_500_capture.PNG" alt="500 captured" style="width: 100%; clear: both;" />
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer class="dark-primary-color text-primary-color"><span>HttpResponseSimulator - 2017 - Built by <a href="http://www.iamnguele.com">Jean-Dominique Nguele</a>, you can also check out <a href="http://blog.iamnguele.com">my blog</a></span></footer>
+    </body>
+</html>
