@@ -1,3 +1,5 @@
+var throng = require('throng')
+
 var url = require('url')
 var processQuery = require('./processor')
 
@@ -7,7 +9,7 @@ var handleEchoResponse = require('./response-handlers/echo')
 
 var request = require('request')
 var express = require('express')
-const path = require('path');
+const path = require('path')
 var app = express()
 
 var bodyParser = require('body-parser')
@@ -59,15 +61,24 @@ function handle(query, res, defaultHandler) {
   })
 }
 
-var port = process.env.PORT || 8080;
+function start() {
+  var port = process.env.PORT || 8080;
 
-var server = app.listen(port, function () {
+  var server = app.listen(port, function () {
 
-  var host = server.address().address
-  var port = server.address().port
+    var host = server.address().address
+    var port = server.address().port
 
-  console.log("Http Client Simulator listening at http://%s:%s", host, port)
-})
+    console.log("Http Client Simulator listening at http://%s:%s", host, port)
+  })
+}
+
+var WORKERS = process.env.WEB_CONCURRENCY || 1;
+
+throng({
+  workers: WORKERS,
+  lifetime: Infinity
+}, start);
 
 module.exports = {
   app: app,
